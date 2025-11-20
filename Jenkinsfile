@@ -6,23 +6,28 @@ pipeline{
         stage("Code clone"){
             steps{
                 sh "whoami"
-            clone("https://github.com/Negi09/notes_app.git","main")
+                script{
+                    
+            clone("https://github.com/Negi09/notes_app.git","main")}
             }
         }
         stage("Code Build"){
             steps{
-            dockerbuild("notes-app","latest")
+
+            script{           dockerbuild("notes-app","latest")
+            }
             }
         }
         stage("Push to DockerHub"){
             steps{
-                dockerpush("dockerHubCreds","notes-app","latest")
+                script{
+                dockerpush("dockerHubCreds","notes-app","latest")}
             }
         }
         stage("Deploy"){
-            steps{
+            steps{Script{
                 deploy()
-            }
+            }}
         }
         
     }
